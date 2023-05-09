@@ -7,6 +7,8 @@ use App\Models\Card;
 use App\Models\Checklist;
 use App\Models\Comment;
 use App\Models\Contact;
+use App\Models\GoogleTrend;
+use App\Models\Link;
 use App\Models\Message;
 use App\Models\Setting;
 use App\Models\User;
@@ -14,6 +16,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use nusoap_client;
+use Symfony\Component\HttpFoundation\Response;
+use XFran\GTrends\GTrends;
 
 class HomeController extends Controller
 {
@@ -40,13 +44,41 @@ class HomeController extends Controller
 // گوگل ترندز --------------------------------------------------------
     public function google_trends_index()
     {
-        return view('googles.index');
+        $queries = GoogleTrend::query()->latest()->get();
+
+        return view('googles.index', compact('queries'));
     }
 
 // لینک ها --------------------------------------------------------
     public function links_index()
     {
-        return view('links.index');
+        $links = Link::all();
+        return view('links.index', compact('links'));
+    }
+
+    public function links_store(Request $request)
+    {
+        if (Link::query()->where('url', $request->url)->exists()) {
+            return back()->with('error', 'این لینک قبلاً ثبت شده');
+        }
+
+        Link::query()->create($request->only(['name', 'url']));
+
+        return back()->with('success', 'لینک با موفقیت ثبت شد.');
+    }
+
+    public function links_delete(Link $link)
+    {
+        $link->delete();
+        return back()->with('success', 'لینک با موفقیت حذف شد.');
+    }
+
+    public function links_status_change(Request $request)
+    {
+        $link = Link::query()->findOrFail($request->link_id);
+        $link->active = $request->status == 'false' ? 0 : 1;
+        $link->save();
+        return response('HTTP_OK', Response::HTTP_OK);
     }
 
 // محتوا ها --------------------------------------------------------

@@ -97,7 +97,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('contents.index') }}" class="nav-link text-black-50" id="links">
+                                <a href="{{ route('contents.index') }}" class="nav-link text-black-50" id="content">
                                     <i class="nav-icon fa fa-list-alt"></i>
                                     <p>
                                         محتوا

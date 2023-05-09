@@ -27,8 +27,26 @@
                     </div>
                     <div class="card-body">
                         <table class="table table-bordered table-responsive table-striped table-hover d-table">
-
-
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Query</th>
+                                <th>Value</th>
+                                <th>FormattedKey</th>
+                                <th>Link</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($queries as $query)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td width="260">{{ $query->gt_query ?? '' }}</td>
+                                    <td>{{ $query->gt_value ?? '' }}</td>
+                                    <td style="direction: ltr">{{ $query->gt_format ?? '' }}</td>
+                                    <td>{{ $query->gt_link ?? '' }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -44,4 +62,5 @@
         document.getElementById('users').className = 'nav-link text-black-50'
         document.getElementById('setting').className = 'nav-link text-black-50'
     </script>
+
 @endsection

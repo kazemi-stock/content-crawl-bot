@@ -20,10 +20,7 @@ Route::get('/', function () {
         return redirect()->route('login');
     }
 });
-Route::get('/messages/get', [App\Http\Controllers\Controller::class, 'messages_get'])->name('messages.get');
-Route::get('/messages/send', [App\Http\Controllers\Controller::class, 'messages_send'])->name('messages.send');
-Route::get('/actions/get', [App\Http\Controllers\Controller::class, 'actions_get'])->name('actions.get');
-Route::get('/checklists/get', [App\Http\Controllers\Controller::class, 'checklists_get'])->name('checklists.get');
+Route::get('/trends/query/get', [App\Http\Controllers\Controller::class, 'getQueriesGoogleTrends'])->name('trends.query.get');
 
 Auth::routes();
 
@@ -34,6 +31,9 @@ Route::get('/google/trends', [App\Http\Controllers\HomeController::class, 'googl
 
 // Links
 Route::get('/links', [App\Http\Controllers\HomeController::class, 'links_index'])->name('links.index');
+Route::get('/links/delete/{link}', [App\Http\Controllers\HomeController::class, 'links_delete'])->name('links.delete');
+Route::post('links/store', [App\Http\Controllers\HomeController::class, 'links_store'])->name('links.store');
+Route::post('/links/status/change', [App\Http\Controllers\HomeController::class, 'links_status_change'])->name('links.status.change');
 
 // Contents
 Route::get('/contents', [App\Http\Controllers\HomeController::class, 'contents_index'])->name('contents.index');
